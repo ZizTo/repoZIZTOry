@@ -1,4 +1,3 @@
-//Матиевский Павел
 #include <iostream>
 #include <cmath>
 #include <ctime>
@@ -7,8 +6,63 @@
 using namespace std;
 
 const int n = 3;
-char pol[n][n];
+char** pol = new char*[n];
 bool hodit = 0; char endg = '0'; int hod = 1;
+bool playnew = true;
+int Xw = 0; int Ow = 0; int nich = 0;
+
+
+void postroika();
+
+void proverka();
+
+int main() {
+	srand(time(0));
+	while (playnew) {
+		for (int i = 0; i < n; i++)
+		{
+			pol[i] = new char[n];
+		}
+
+		for (int i = 0; i < n; i++)
+		{
+			for (int j = 0; j < n; j++)
+			{
+				pol[i][j] = '-';
+			}
+		}
+
+		postroika();
+
+		while (endg == '0' && hod < 10)
+		{
+			int id1; int id2;
+			cin >> id1 >> id2;
+			if (hodit == 0 && pol[id1 - 1][id2 - 1] == '-') pol[id1 - 1][id2 - 1] = 'X';
+			if (hodit == 1 && pol[id1 - 1][id2 - 1] == '-') pol[id1 - 1][id2 - 1] = 'O';
+			hod++;
+			if (hodit == 1) hodit = 0;
+			else if (hodit == 0) hodit = 1;
+			postroika();
+			proverka();
+		}
+
+		cout << endl;
+
+		if (endg == '0') {
+			cout << "nichia"; nich++;
+		}
+		else if (endg == 'X') {
+			cout << "X win!"; Xw++;
+		}
+		else if (endg == 'O') {
+			cout << "O win!"; Ow++;
+		}
+
+		cout << Xw << '-' << nich << '-' << Ow;
+		cin >> playnew;
+	}
+}
 
 void postroika() {
 	cout << " ";
@@ -45,40 +99,4 @@ void proverka() {
 	if (pol[0][2] == 'X' && pol[1][1] == 'X' && pol[2][0] == 'X') endg = 'X';
 	if (pol[0][2] == 'O' && pol[1][1] == 'O' && pol[2][0] == 'O') endg = 'O';
 }
-
-int main() {
-	srand(time(0));
-
-	for (int i = 0; i < n; i++)
-	{
-		for (int j = 0; j < n; j++)
-		{
-			pol[i][j] = '-';
-		}
-	}
-
-	postroika();
-
-	while (endg == '0' && hod < 10)
-	{
-		int id1; int id2;
-		cin >> id1 >> id2;
-		if (hodit == 0 && pol[id1 - 1][id2 - 1] == '-') pol[id1 - 1][id2 - 1] = 'X';
-		if (hodit == 1 && pol[id1 - 1][id2 - 1] == '-') pol[id1 - 1][id2 - 1] = 'O';
-		hod++;
-		if (hodit == 1) hodit = 0;
-		else if (hodit == 0) hodit = 1;
-		postroika();
-		proverka();
-	}
-
-	cout << endl;
-
-	if (endg == '0') cout << "nichia";
-	else if (endg == 'X') cout << "X win!";
-	else if (endg == 'O') cout << "O win!";
-}
-
-
-
 
