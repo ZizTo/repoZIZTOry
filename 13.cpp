@@ -19,6 +19,8 @@ void proverka();
 int main() {
 	srand(time(0));
 	while (playnew) {
+		hod = 1;
+		endg = '0';
 		for (int i = 0; i < n; i++)
 		{
 			pol[i] = new char[n];
