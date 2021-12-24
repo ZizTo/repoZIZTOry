@@ -1,5 +1,6 @@
 #include <iostream>
-
+#include <ctime>
+#include "monster.h"
 using namespace std;
 
 class Creature {
@@ -39,18 +40,14 @@ public:
 	bool Won() { return p_level >= 20; }
 };
 
-class Monster : public Creature
-{
-public:
-	enum Type {
-		DRAGON,
-		ORC,
-		SLIME,
-		MAX_TYPES,
-	};
-};
+
+
+
 
 int main() {
+	srand(time(0));
+	srand(time(0));
+
 	string name;
 	cout << "Halo, your name: ";
 	cin >> name;
@@ -58,5 +55,22 @@ int main() {
 	Player p(name);
 
 	cout << p.getName() << ", you have " << p.getGold() << " gold" << endl;
+
+	while (!p.isDead() && !p.Won()) {
+		Monster m = Monster::getRndM();
+		cout << "You found " << m.getName() << " (" << m.getSymb() << ") on the field. You will(R or F): ";
+		char input;
+		cin >> input;
+		while (!m.isDead()) {
+			if (input == 'R') {
+				if ((rand() % 2) == 1) { cout << "you run " << endl; continue; }
+				else { p.minusHp(m.getDmg()); cout << "you been pinched " << endl; }
+			}
+			else if (input == 'F') { m.minusHp(p.getDmg()); }
+
+			if (m.isDead()) { p.addGold(m.getGold()); break; }
+			if (p.isDead()) { cout << "ti ded)"; }
+		}
+	}
 
 }
